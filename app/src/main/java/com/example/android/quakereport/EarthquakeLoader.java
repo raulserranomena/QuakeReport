@@ -1,9 +1,10 @@
 package com.example.android.quakereport;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
 import java.util.List;
@@ -34,7 +35,8 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     @Override
     protected void onStartLoading() {
         Log.i(LOG_TAG, "TEST: onStartLoading() called...");
-        forceLoad();
+        //No forceLoad the Loader, since we are doing it directly from the startLoader() method
+        //forceLoad();
     }
 
     /**
@@ -42,12 +44,23 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
      */
     @Override
     public List<Earthquake> loadInBackground() {
-        Log.i(LOG_TAG, "TEST: LoadInBackground() called...");
-        if (mUrl == null) {
+
+        if (mUrl == null || !isNetworkActive()) {
+            Log.i(LOG_TAG,"TEST: LoadInBackground() called, No Internet connection");
             return null;
         }
+
+        Log.i(LOG_TAG, "TEST: LoadInBackground() called, There is Internet connection");
         // Perform the network request, parse the response, and extract a list of earthquakes.
         List<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(mUrl);
         return earthquakes;
+    }
+
+    public boolean isNetworkActive() {
+        // Check for connectivity status
+        ConnectivityManager cm = (ConnectivityManager) getContext().
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

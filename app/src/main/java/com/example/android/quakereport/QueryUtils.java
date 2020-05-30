@@ -1,5 +1,8 @@
 package com.example.android.quakereport;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
 
 /**
  * Helper methods related to requesting and receiving earthquake data from USGS.
@@ -213,6 +218,8 @@ public final class QueryUtils {
         // Return the list of earthquakes
         return earthquakes;
     }
+
+
 
 
 }
