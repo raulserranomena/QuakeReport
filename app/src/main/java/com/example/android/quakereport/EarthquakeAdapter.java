@@ -51,12 +51,12 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     /**
      * Construct a new {@link EarthquakeAdapter}.
      *
-     * @param context of the app .
-     * @param  earthquakes is the list of earthquakes, which is the data source of the adapter.
+     * @param context     of the app .
+     * @param earthquakes is the list of earthquakes, which is the data source of the adapter.
      */
     public EarthquakeAdapter(@NonNull Context context, List<Earthquake> earthquakes) {
 
-        super(context,0, earthquakes);
+        super(context, 0, earthquakes);
     }
 
     /**
@@ -67,14 +67,14 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // check if there is an existing list item (called convertView) that we can use,
         // otherwise if convertView is null, then inflate a new list item layout .
-        View listItemView = convertView ;
-        if (listItemView == null){
+        View listItemView = convertView;
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.earthquake_list_item, parent, false) ;
+                    R.layout.earthquake_list_item, parent, false);
         }
 
         // Find the earthquake at the given position of the list of earthquakes .
-        Earthquake currentEarthquake = getItem(position) ;
+        Earthquake currentEarthquake = getItem(position);
 
         // Find the textView with the Magnitude ID .
         TextView magnitudeView = listItemView.findViewById(R.id.magnitude);
@@ -132,13 +132,13 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         locationOffsetView.setText(locationOffset);
 
         // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds()) ;
+        Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
 
         // Find the textView with the Date ID .
-        TextView dateView = listItemView.findViewById(R.id.date) ;
+        TextView dateView = listItemView.findViewById(R.id.date);
 
         // Format the date string (i.e. "Mar 3, 1984")
-        String formattedDate = formatDate(dateObject) ;
+        String formattedDate = formatDate(dateObject);
 
         // Display the date of the current earthquake in that TextView
         dateView.setText(formattedDate);
@@ -152,7 +152,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         timeView.setText(formattedTime);
 
         // Returns the listItemView that is now showing the appropriate data.
-        return listItemView ;
+        return listItemView;
     }
 
     /**
@@ -205,7 +205,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
      */
     private String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject) ;
+        return dateFormat.format(dateObject);
     }
 
     /**
@@ -213,7 +213,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
      */
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        return timeFormat.format(dateObject) ;
+        return timeFormat.format(dateObject);
     }
 
     /**
