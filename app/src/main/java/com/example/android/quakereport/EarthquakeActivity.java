@@ -120,6 +120,11 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
 
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+
         // Set empty state text to display "No earthquakes found."
         mEmptyStateTextView.setText(R.string.no_earthquakes);
 
@@ -130,7 +135,7 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
         // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (earthquakes != null && !earthquakes.isEmpty()) {
-           mAdapter.addAll(earthquakes);
+          mAdapter.addAll(earthquakes);
         }
     }
 
