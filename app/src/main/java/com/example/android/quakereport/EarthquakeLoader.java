@@ -21,6 +21,8 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
      */
     private String mUrl;
 
+    private Context mContext;
+
     /**
      * Constructs a new {@link EarthquakeLoader}.
      *
@@ -30,6 +32,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     public EarthquakeLoader(Context context, String url) {
         super(context);
         mUrl = url;
+        mContext = context;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     @Override
     public List<Earthquake> loadInBackground() {
 
-        if (mUrl == null || !isNetworkActive()) {
+        if (mUrl == null || !QueryUtils.isNetworkActive(mContext)) {
             Log.i(LOG_TAG,"TEST: LoadInBackground() called, No Internet connection");
             return null;
         }
@@ -56,11 +59,4 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
         return earthquakes;
     }
 
-    public boolean isNetworkActive() {
-        // Check for connectivity status
-        ConnectivityManager cm = (ConnectivityManager) getContext().
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
 }

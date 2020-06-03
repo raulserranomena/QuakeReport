@@ -53,7 +53,7 @@ public final class QueryUtils {
         // Android Studio will complain that there is an uncaught exception,
         // so we need to surround that statement with a try/catch block.
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -220,6 +220,12 @@ public final class QueryUtils {
     }
 
 
+    public static boolean isNetworkActive(Context context) {
+        // Check for connectivity status
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
 
 
 }

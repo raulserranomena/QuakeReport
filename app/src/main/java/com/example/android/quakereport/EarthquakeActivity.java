@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.Loader;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,6 +52,7 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
      * URL for earthquake data from the USGS dataset
      */
     private static final String USGS_REQUEST_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
+
 
     /**
      * Adapter for the list of earthquakes
@@ -194,7 +197,7 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
 
         //If the list of earthquakes is empty and there is no Internet Connection, update and
         //show it in the emptyTextView
-        if (earthquakes == null && !isNetworkActive()){
+        if (earthquakes == null && !QueryUtils.isNetworkActive(this)){
             mEmptyStateTextView.setText("No Internet connection");
         }
 
@@ -216,7 +219,7 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
         Log.i(LOG_TAG, "TEST:  startLoader() called...");
 
         // If network active start fetching data
-        if (isNetworkActive()) {
+        if (QueryUtils.isNetworkActive(this)) {
             Log.i(LOG_TAG, "TEST: There is Internet connection, calling initloader()...");
             loadingIndicator.setVisibility(View.VISIBLE);
             androidx.loader.app.LoaderManager.getInstance(this).initLoader(EARTHQUAKE_LOADER_ID, null, this).forceLoad();
@@ -228,11 +231,21 @@ public class EarthquakeActivity extends AppCompatActivity implements androidx.lo
         }
     }
 
-    public boolean isNetworkActive() {
-        // Check for connectivity status
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
